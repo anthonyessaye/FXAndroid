@@ -1,3 +1,18 @@
 <resources>
-    <string name="app_name">F!X</string>
+    <string name="app_name">FIX</string>
+    <string name="home">Home</string>
+    <string name="main_device">Main Device</string>
+    <string name="component">Components</string>
+
+    <string name="open_menu">Open</string>
+    <string name="close_menu">Close</string>
+    <string name="logout">Logout</string>
+    <string name="title_activity_user">UserActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+
 </resources>

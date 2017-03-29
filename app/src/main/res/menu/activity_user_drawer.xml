@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/nav_home"
+        android:title="@string/home"
+        android:icon="@mipmap/ic_home_white_24dp"/>
+
+    <item android:id="@+id/nav_maindevice"
+        android:title="@string/main_device"
+        android:icon="@mipmap/ic_device_hub_white_24dp"/>
+
+    <item
+        android:id="@+id/nav_component"
+        android:title="@string/component"
+        android:icon="@mipmap/ic_bluetooth_white_24dp"/>
+
+    <item android:id="@+id/nav_settings"
+        android:title="@string/action_settings"
+        android:icon="@mipmap/ic_settings_white_24dp"/>
+
+    <item android:id="@+id/nav_logout"
+        android:title="@string/logout"
+        android:icon="@mipmap/ic_exit_to_app_white_24dp"/>
+
+</menu>
