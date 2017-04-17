@@ -1,6 +1,8 @@
 package com.ndusenior.fix;
 
 
+import android.content.Intent;
+import android.content.res.XmlResourceParser;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.Image;
@@ -25,28 +27,39 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ndusenior.fix.XMLRelated.XMLparsing;
+
+import org.json.JSONException;
+
 import java.io.File;
 import java.util.Set;
 
 public class UserActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private String Email;
-    private String Password;
+    public String Email;
+    public String Password;
     public String SettingsXML;
     public String OutputXML;
     public String profileImage;
+
+    public static final String EMAIL_KEY = "email";
+    public static final String PASSWORD_KEY = "password";
+
 
     private MyFTPClientFunctions ftpclient;
 
     private TextView UserText;
     private ImageView ProfilePictureDownloaded;
+    private Toolbar toolbar;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar =(Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("FIX");
         setSupportActionBar(toolbar);
 
@@ -57,6 +70,7 @@ public class UserActivity extends AppCompatActivity
         Password = getIntent().getExtras().getString("Password");
         UserText = (TextView) findViewById(R.id.user);
         ProfilePictureDownloaded = (ImageView) findViewById(R.id.imageProfile);
+
 
 
         ftpclient = new MyFTPClientFunctions();
@@ -84,6 +98,8 @@ public class UserActivity extends AppCompatActivity
 
     }
 
+
+
     public void SetTheImage()
     {
         File rootFolder = new File(Environment.getExternalStorageDirectory(),"FIX");
@@ -94,11 +110,14 @@ public class UserActivity extends AppCompatActivity
 
     }
 
-
    public void setPicture(ImageView image, String pathToImage){
        image.setImageBitmap(BitmapFactory.decodeFile(pathToImage));
 
    }
+
+
+
+
 
 
     @Override
@@ -135,13 +154,31 @@ public class UserActivity extends AppCompatActivity
 
         switch (id) {
             case R.id.nav_maindevice:
+
                 newFragment = new ControlsMenu();
+                Bundle theInfo = new Bundle();
+                theInfo.putString(EMAIL_KEY,Email);
+                theInfo.putString(PASSWORD_KEY,Password);
+                newFragment.setArguments(theInfo);
+                toolbar.setTitle("Main Device");
+
                 break;
             case R.id.nav_home:
                 newFragment = new FragmentHome();
+                toolbar.setTitle("FIX");
                 break;
+            case R.id.nav_assistant:
+                newFragment = new FragmentBot();
+                toolbar.setTitle("Assistant");
+                break;
+
             case R.id.nav_settings:
                 newFragment = new FragmentSettings();
+                toolbar.setTitle("Settings");
+                break;
+            case R.id.nav_component:
+                newFragment = new FragmentComponent();
+                toolbar.setTitle("Component");
                 break;
             case R.id.nav_logout:
                 finish();
@@ -170,4 +207,8 @@ public class UserActivity extends AppCompatActivity
 
         return true;
     }
+
+
+
+
 }

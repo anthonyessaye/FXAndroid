@@ -5,6 +5,10 @@
         android:title="@string/home"
         android:icon="@mipmap/ic_home_white_24dp"/>
 
+    <item android:id="@+id/nav_assistant"
+        android:title="Assistant"
+        android:icon="@mipmap/ic_assistant_white_24dp"/>
+
     <item android:id="@+id/nav_maindevice"
         android:title="@string/main_device"
         android:icon="@mipmap/ic_device_hub_white_24dp"/>

@@ -48,10 +48,30 @@
     </LinearLayout>
 
     <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="1"
+        android:gravity="center"
+        android:paddingTop="20dp">
+
+      <CheckBox
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:id="@+id/RememberCheckBox"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Remember Me"/>
+    </LinearLayout>
+
+    <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="bottom">
+
 
         <LinearLayout
             android:orientation="horizontal"
