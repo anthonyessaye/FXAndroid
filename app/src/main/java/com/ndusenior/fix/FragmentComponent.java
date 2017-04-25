@@ -1,5 +1,8 @@
 package com.ndusenior.fix;
 
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -18,6 +21,7 @@ public class FragmentComponent extends Fragment{
         super.onViewCreated(view, savedInstanceState);
 
     }
+
 
     @Nullable
     @Override

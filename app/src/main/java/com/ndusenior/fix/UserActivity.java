@@ -177,7 +177,7 @@ public class UserActivity extends AppCompatActivity
                 toolbar.setTitle("Settings");
                 break;
             case R.id.nav_component:
-                newFragment = new FragmentComponent();
+                newFragment = new FragmentBluetoothList();
                 toolbar.setTitle("Component");
                 break;
             case R.id.nav_logout:

@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.ndusenior.fix.XMLRelated.OutputQueries;
 import com.ndusenior.fix.XMLRelated.XMLparsing;
 
 import org.w3c.dom.Document;
@@ -37,6 +38,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.Delayed;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -83,6 +86,8 @@ public class ControlsMenu extends Fragment  {
 
     private TextView statusText;
 
+    private OutputQueries theOutputs;
+
 
 
     @Override
@@ -106,58 +111,21 @@ public class ControlsMenu extends Fragment  {
         statusText = (TextView) getView().findViewById(R.id.statusText);
         statusText.setText("Getting Latest Files");
 
+        theOutputs = new OutputQueries(Email,Password);
+        theOutputs.LoadOutputXml(toggleButtons,editTextArray,statusText);
 
-        LoadXML();
 
-
+        onButtonToggles();
+        onTextChanges();
 
 
 
     }
 
 
-    private void testWriting(String fileToWrite, String ElementChosen,String RootElement,
-                                            int ElementPosition, String UpdateElementValue) {
-        File xmlFile = new File(fileToWrite);
-        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder dBuilder;
-        try {
-            dBuilder = dbFactory.newDocumentBuilder();
-            Document doc = dBuilder.parse(xmlFile);
-            doc.getDocumentElement().normalize();
 
 
-            //update Element value
-            updateElementValue(doc,RootElement,ElementChosen,ElementPosition,UpdateElementValue);
 
-
-            //write the updated document to file or console
-            doc.getDocumentElement().normalize();
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            Transformer transformer = transformerFactory.newTransformer();
-            DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(new File(fileToWrite));
-            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-            transformer.transform(source, result);
-            System.out.println("XML file updated successfully");
-
-        } catch (SAXException | ParserConfigurationException | IOException | TransformerException e1) {
-            e1.printStackTrace();
-        }
-    }
-
-
-        private static void updateElementValue(Document doc, String RootElement, String ElementChosen,
-                                               int ElementPosition, String UpdatedValue) {
-            NodeList node = doc.getElementsByTagName(RootElement);
-            Element nodes = null;
-            //loop for each employee
-            for(int i=0; i < node.getLength();i++){
-                nodes = (Element) node.item(ElementPosition);
-                Node name = nodes.getElementsByTagName(ElementChosen).item(0).getFirstChild();
-                name.setNodeValue(UpdatedValue);
-            }
-        }
 
 
  public void SaveButtonListener(){
@@ -168,12 +136,12 @@ public class ControlsMenu extends Fragment  {
 
 
              for(int i = 0; i< editTextArray.length; i++) {
-                 testWriting(OutputXML, KEY_NAME, KEY_OUTPUT, i, editTextArray[i].getText().toString());
-                 testWriting(OutputXML, KEY_STATUS, KEY_OUTPUT, i, toggleButtons[i].getText().toString());
+                 theOutputs.SetOutputs(OutputXML, KEY_NAME, KEY_OUTPUT, i, editTextArray[i].getText().toString());
+                 theOutputs.SetOutputs(OutputXML, KEY_STATUS, KEY_OUTPUT, i, toggleButtons[i].getText().toString());
              }
              uploadIt();
 
-             //Toast.makeText(getContext(),"Files Uplaoded",Toast.LENGTH_LONG).show();
+             Message.showToast("Files Uploaded",getActivity());
 
 
 
@@ -181,6 +149,130 @@ public class ControlsMenu extends Fragment  {
          }
 
      });
+}
+public void onTextChanges(){
+    editTextArray[0].setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+        @Override
+        public void onFocusChange(View v, boolean hasFocus) {
+
+            if(!hasFocus){
+                //this if condition is true when edittext lost focus...
+                //check here for number is larger than 10 or not
+
+                theOutputs.SetOutputs(OutputXML, KEY_NAME, KEY_OUTPUT, 0, editTextArray[0].getText().toString());
+                uploadIt();
+                Message.showToast("Name Updated",getActivity());
+            }
+        }
+    });
+
+    editTextArray[1].setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+        @Override
+        public void onFocusChange(View v, boolean hasFocus) {
+
+            if(!hasFocus){
+                //this if condition is true when edittext lost focus...
+                //check here for number is larger than 10 or not
+
+                theOutputs.SetOutputs(OutputXML, KEY_NAME, KEY_OUTPUT, 1, editTextArray[1].getText().toString());
+                uploadIt();
+                Message.showToast("Name Updated",getActivity());
+            }
+        }
+    });
+
+    editTextArray[2].setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+        @Override
+        public void onFocusChange(View v, boolean hasFocus) {
+
+            if(!hasFocus){
+                //this if condition is true when edittext lost focus...
+                //check here for number is larger than 10 or not
+
+                theOutputs.SetOutputs(OutputXML, KEY_NAME, KEY_OUTPUT, 2, editTextArray[2].getText().toString());
+                uploadIt();
+                Message.showToast("Name Updated",getActivity());
+            }
+        }
+    });
+
+    editTextArray[3].setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+        @Override
+        public void onFocusChange(View v, boolean hasFocus) {
+
+            if(!hasFocus){
+                //this if condition is true when edittext lost focus...
+                //check here for number is larger than 10 or not
+
+                theOutputs.SetOutputs(OutputXML, KEY_NAME, KEY_OUTPUT, 3, editTextArray[3].getText().toString());
+                uploadIt();
+                Message.showToast("Name Updated",getActivity());
+            }
+        }
+    });
+
+}
+public void onButtonToggles(){
+
+    toggleButtons[0].setOnClickListener(new View.OnClickListener(){
+
+        @Override
+        public void onClick(View v){
+
+            theOutputs.SetOutputs(OutputXML, KEY_STATUS, KEY_OUTPUT, 0, toggleButtons[0].getText().toString());
+
+            uploadIt();
+
+            Message.showToast("Status Updated",getActivity());
+        }
+    });
+
+    toggleButtons[1].setOnClickListener(new View.OnClickListener(){
+
+        @Override
+        public void onClick(View v){
+
+            theOutputs.SetOutputs(OutputXML, KEY_NAME, KEY_OUTPUT, 1, editTextArray[1].getText().toString());
+            theOutputs.SetOutputs(OutputXML, KEY_STATUS, KEY_OUTPUT, 1, toggleButtons[1].getText().toString());
+
+            uploadIt();
+
+            Message.showToast("Status Updated",getActivity());
+        }
+    });
+
+    toggleButtons[2].setOnClickListener(new View.OnClickListener(){
+
+        @Override
+        public void onClick(View v){
+
+            theOutputs.SetOutputs(OutputXML, KEY_NAME, KEY_OUTPUT, 2, editTextArray[2].getText().toString());
+            theOutputs.SetOutputs(OutputXML, KEY_STATUS, KEY_OUTPUT, 2, toggleButtons[2].getText().toString());
+
+            uploadIt();
+
+            Message.showToast("Status Updated",getActivity());
+        }
+    });
+
+    toggleButtons[3].setOnClickListener(new View.OnClickListener(){
+
+        @Override
+        public void onClick(View v){
+
+            theOutputs.SetOutputs(OutputXML, KEY_NAME, KEY_OUTPUT, 3, editTextArray[3].getText().toString());
+            theOutputs.SetOutputs(OutputXML, KEY_STATUS, KEY_OUTPUT, 3, toggleButtons[3].getText().toString());
+
+            uploadIt();
+
+            Message.showToast("Status Updated",getActivity());
+        }
+    });
+
 }
 
     public void uploadIt(){
@@ -209,37 +301,7 @@ public class ControlsMenu extends Fragment  {
 
     }
 
-    public void LoadXML()
-    {
-        boolean isOn = true;
 
-        XMLparsing parser = new XMLparsing();
-        Document doc = parser.getDomElement(OutputXML); // getting DOM element
-
-        NodeList nl = doc.getElementsByTagName(KEY_OUTPUT);
-
-        // looping through all item nodes <item>
-        for (int i = 0; i < nl.getLength(); i++) {
-            Element e = (Element) nl.item(i);
-            String name = parser.getValue(e,KEY_NAME); // name child value
-            String id = parser.getValue(e, KEY_ID); // cost child value
-            String status = parser.getValue(e, KEY_STATUS); // description child value
-
-            toggleButtons[i].setTextOff("Off");
-            toggleButtons[i].setTextOn("On");
-
-
-            if (status == "On")
-                toggleButtons[i].setChecked(true);
-            else
-                toggleButtons[i].setChecked(false);
-
-            editTextArray[i].setText(name);
-            statusText.setText("Files Up-To-Date\nStatus: Idle");
-        }
-
-
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

@@ -227,15 +227,16 @@ public class LoginActivity extends AppCompatActivity {
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                requestPermissions(new String[] {Manifest.permission.READ_EXTERNAL_STORAGE},
+                                requestPermissions(new String[] {Manifest.permission.READ_EXTERNAL_STORAGE,
+                                                Manifest.permission.ACCESS_COARSE_LOCATION},
                                         REQUEST_CODE_ASK_PERMISSIONS);
+
+
                             }
                         });
                 return;
             }
-            requestPermissions(new String[] {Manifest.permission.READ_EXTERNAL_STORAGE},
-                    REQUEST_CODE_ASK_PERMISSIONS);
-            return;
+
         }
     }
 

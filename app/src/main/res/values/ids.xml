@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item name="layout1" type="id">layout1</item>
+    <item name="UserDp" type="id" />
+    <item name="layout1" type="id">1</item>
+    <item name="layout2" type="id">2</item>
+    <item name="layout3" type="id">3</item>
+
+
+
+
+
 </resources>

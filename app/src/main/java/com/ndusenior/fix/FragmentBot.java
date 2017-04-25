@@ -9,6 +9,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -28,11 +30,11 @@ public class FragmentBot extends Fragment {
     private TextView FirstText;
 
     private ImageView UserDp;
-
+    private ImageView sendButton;
+    private EditText UserMessage;
 
     private RelativeLayout mainLayout;
-    private File rootFolder = new File(Environment.getExternalStorageDirectory(),"FIX");
-    private String profileImage = rootFolder.getAbsolutePath() + "/profile.jpg";
+
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -43,14 +45,30 @@ public class FragmentBot extends Fragment {
         mainLayout = (RelativeLayout) getView().findViewById(R.id.mainBotLayout);
 
         theBot = new NotSoIntelligentAssistant(mainLayout,getContext());
-        UserDp = (ImageView) getView().findViewById(R.id.UserDp);
+        sendButton = (ImageView) getView().findViewById(R.id.SendBtn);
+        UserMessage = (EditText) getView().findViewById(R.id.MessageText);
 
-        UserDp.setImageBitmap(BitmapFactory.decodeFile(profileImage));
+
+
+
 
         // ------------------ Bezyede Intializing ---------------------//
 
 
 
+
+        sendButton.setOnClickListener( new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+
+                    theBot.Read(UserMessage.getText().toString());
+                    UserMessage.setText("");
+
+
+            }
+        });
 
         getActivity().setTitle("Assistant");
     }

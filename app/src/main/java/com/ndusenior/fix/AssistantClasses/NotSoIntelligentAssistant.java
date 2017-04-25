@@ -9,13 +9,16 @@ import android.graphics.Color;
 import android.media.TimedText;
 import android.text.format.Time;
 import android.util.TypedValue;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.ndusenior.fix.LoginActivity;
 import com.ndusenior.fix.R;
 
+import org.simpleframework.xml.convert.Convert;
 import org.w3c.dom.Text;
 
 import java.security.SecureRandom;
@@ -38,11 +41,16 @@ public class NotSoIntelligentAssistant {
     private RelativeLayout theLayout;
 
     private Context theMainContext;
+    private UserConversation theUser;
+
+    private int LayoutNumber = 80000000;
+    private int LayoutNumberNext;
 
     public NotSoIntelligentAssistant(RelativeLayout LayoutToExtend, Context context){
         theLayout = LayoutToExtend;
         theMainContext = context;
-        CreateMyEnteringSpeech();
+        theUser = new UserConversation(theMainContext,theLayout);
+        CreateMyEnteringSpeech(HelloText());
     }
 
 
@@ -68,17 +76,72 @@ public class NotSoIntelligentAssistant {
         return WelcomingTexts;
     }
 
+    public String IAmStuuuupid(){
+
+        Calendar theCalender = Calendar.getInstance();
+        Random aRandomNumber = new Random(theCalender.getTimeInMillis());
+
+        if((aRandomNumber.nextInt()) % NumberOfSentencesIKnow == 0)
+            WelcomingTexts = "Nope I don't get that\nTry typing help";
+        if(aRandomNumber.nextInt() % NumberOfSentencesIKnow == 1)
+            WelcomingTexts = "My knowledge is limited.\nSay help and I will";
+        if(aRandomNumber.nextInt() % NumberOfSentencesIKnow == 2)
+            WelcomingTexts = "It is help you need.\nAsk me to help you.";
+        if(aRandomNumber.nextInt() % NumberOfSentencesIKnow == 3)
+            WelcomingTexts = "You think I'm that smart?\nNope, try help";
+        if(aRandomNumber.nextInt() % NumberOfSentencesIKnow == 4)
+            WelcomingTexts = "Help. Help. Help. Maybe I will";
+        if(aRandomNumber.nextInt() % NumberOfSentencesIKnow == 5)
+            WelcomingTexts = "Try saying that in binary.";
+
+
+        return WelcomingTexts;
+    }
+
 
     public void Read(String theText){
+
+        LayoutNumber = theUser.CreateUserSpeech(LayoutNumber,theText);
+        TryToUnderStand(theText);
 
 
     }
 
 
-    private void CreateMyEnteringSpeech(){
+
+    private void TryToUnderStand(String splitText){
+
+
+            boolean theTest = false;
+
+            LayoutNumberNext = LayoutNumber + 1;
+            if (splitText.contains("Hey") || splitText.contains("Hello") ||
+                    splitText.contains("hello") || splitText.contains("hey") ||
+                        splitText.contains("Hi") || splitText.contains("hi"))
+            {
+                CreateMySpeech(LayoutNumberNext,HelloText());
+                theTest = true;
+            }
+
+            else if(splitText.contains("Help") || splitText.contains("help"))
+            {
+                CreateMySpeech(LayoutNumberNext,"So far i can only welcome you");
+                theTest=true;
+            }
+
+            if (theTest == false)
+                CreateMySpeech(LayoutNumberNext,IAmStuuuupid());
+
+
+
+    }
+
+    private void CreateMyEnteringSpeech(String theText){
 
         LinearLayout newLayout = new LinearLayout(theMainContext);
         newLayout.setOrientation(LinearLayout.HORIZONTAL);
+
+
 
 
         //First I need to create the profile image
@@ -93,15 +156,65 @@ public class NotSoIntelligentAssistant {
 
         // Create a TextView programmatically.
 
-        TextView mySpeech = CreateBotTextView(theMainContext);
+        TextView mySpeech = CreateBotTextView(theMainContext, theText);
         newLayout.addView(mySpeech);
 
         // Add newly created TextView to parent view group (RelativeLayout)
 
-        newLayout.setId(R.id.layout1);
+        newLayout.setId(LayoutNumber);
+        theLayout.addView(newLayout);
+
+
+
+
+    }
+    public void CreateMySpeech(int LayoutNumberYouAreOn, String theText){
+
+
+        LinearLayout newLayout = new LinearLayout(theMainContext);
+        newLayout.setOrientation(LinearLayout.HORIZONTAL);
+
+
+        RelativeLayout.LayoutParams p = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+
+
+        p.addRule(RelativeLayout.BELOW,LayoutNumber);
+
+
+
+        //lastly I need to create the profile image
+        ImageView userImage = CreateBotDP(theMainContext);
+        newLayout.addView(userImage);
+
+        // ---------- Then I will create the triangle ------------//
+
+        ImageView theTriangle = CreateBotArrow(theMainContext);
+        newLayout.addView(theTriangle);
+
+        // Create a TextView programmatically.
+
+        TextView userSpeech = CreateBotTextView(theMainContext,theText);
+        userSpeech.setText(theText);
+        newLayout.addView(userSpeech);
+
+
+
+
+
+
+
+        LayoutNumber = LayoutNumber+1;
+        // Add newly created TextView to parent view group (RelativeLayout)
+
+        newLayout.setId(LayoutNumber);
+        newLayout.setLayoutParams(p);
+        newLayout.setPadding(0,30,0,0);
+
         theLayout.addView(newLayout);
 
     }
+
 
     private ImageView CreateBotDP(Context context){
 
@@ -138,7 +251,7 @@ public class NotSoIntelligentAssistant {
 
         return theTriangle;
     }
-    private TextView CreateBotTextView(Context context){
+    private TextView CreateBotTextView(Context context, String theText){
 
         TextView mySpeech = new TextView(context);
         LinearLayout.LayoutParams Parameters = new LinearLayout.LayoutParams(
@@ -151,7 +264,7 @@ public class NotSoIntelligentAssistant {
         // Apply the layout parameters to TextView widget
         mySpeech.setLayoutParams(Parameters);
         // Set text to display in TextView
-        mySpeech.setText(HelloText());
+        mySpeech.setText(theText);
         // Set a text color for TextView text
         mySpeech.setTextColor(Color.parseColor("#000000"));
         mySpeech.setBackgroundResource(R.drawable.rounded_corner_alternative);
