@@ -156,13 +156,16 @@ public void onTextChanges(){
         @Override
         public void onFocusChange(View v, boolean hasFocus) {
 
-            if(!hasFocus){
+            if(!hasFocus && !editTextArray[0].getText().toString().isEmpty() ){
                 //this if condition is true when edittext lost focus...
                 //check here for number is larger than 10 or not
 
                 theOutputs.SetOutputs(OutputXML, KEY_NAME, KEY_OUTPUT, 0, editTextArray[0].getText().toString());
                 uploadIt();
                 Message.showToast("Name Updated",getActivity());
+            }
+            else if (editTextArray[0].getText().toString().isEmpty()){
+                Message.showToast("Name Cannot Be Empty",getActivity());
             }
         }
     });
@@ -172,13 +175,17 @@ public void onTextChanges(){
         @Override
         public void onFocusChange(View v, boolean hasFocus) {
 
-            if(!hasFocus){
+            if(!hasFocus && !editTextArray[1].getText().toString().isEmpty()){
                 //this if condition is true when edittext lost focus...
                 //check here for number is larger than 10 or not
 
                 theOutputs.SetOutputs(OutputXML, KEY_NAME, KEY_OUTPUT, 1, editTextArray[1].getText().toString());
                 uploadIt();
                 Message.showToast("Name Updated",getActivity());
+            }
+
+            else if (editTextArray[1].getText().toString().isEmpty()){
+               Message.showToast("Name Cannot Be Empty",getActivity());
             }
         }
     });
@@ -188,13 +195,17 @@ public void onTextChanges(){
         @Override
         public void onFocusChange(View v, boolean hasFocus) {
 
-            if(!hasFocus){
+            if(!hasFocus && !editTextArray[2].getText().toString().isEmpty()){
                 //this if condition is true when edittext lost focus...
                 //check here for number is larger than 10 or not
 
                 theOutputs.SetOutputs(OutputXML, KEY_NAME, KEY_OUTPUT, 2, editTextArray[2].getText().toString());
                 uploadIt();
                 Message.showToast("Name Updated",getActivity());
+            }
+
+            else if (editTextArray[2].getText().toString().isEmpty()){
+                Message.showToast("Name Cannot Be Empty",getActivity());
             }
         }
     });
@@ -204,13 +215,16 @@ public void onTextChanges(){
         @Override
         public void onFocusChange(View v, boolean hasFocus) {
 
-            if(!hasFocus){
+            if(!hasFocus && !editTextArray[3].getText().toString().isEmpty()){
                 //this if condition is true when edittext lost focus...
                 //check here for number is larger than 10 or not
 
                 theOutputs.SetOutputs(OutputXML, KEY_NAME, KEY_OUTPUT, 3, editTextArray[3].getText().toString());
                 uploadIt();
                 Message.showToast("Name Updated",getActivity());
+            }
+            else if (editTextArray[3].getText().toString().isEmpty()){
+                Message.showToast("Name Cannot Be Empty",getActivity());
             }
         }
     });

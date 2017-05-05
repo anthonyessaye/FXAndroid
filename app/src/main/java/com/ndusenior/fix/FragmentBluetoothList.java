@@ -105,7 +105,7 @@ public class FragmentBluetoothList extends Fragment{
             // Get the device MAC address, the last 17 chars in the View
             String info = ((TextView) v).getText().toString();
             String address = info.substring(info.length() - 17);
-          
+
             Toast.makeText(getContext(),"Not Implemented Yet",Toast.LENGTH_LONG).show();
         }
     };

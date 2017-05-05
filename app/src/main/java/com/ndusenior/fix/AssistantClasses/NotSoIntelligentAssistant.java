@@ -7,20 +7,25 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.media.TimedText;
+import android.os.Environment;
 import android.text.format.Time;
 import android.util.TypedValue;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.ndusenior.fix.LoginActivity;
+import com.ndusenior.fix.MyFTPClientFunctions;
 import com.ndusenior.fix.R;
+import com.ndusenior.fix.XMLRelated.OutputQueries;
 
 import org.simpleframework.xml.convert.Convert;
 import org.w3c.dom.Text;
 
+import java.io.File;
 import java.security.SecureRandom;
 import java.security.Timestamp;
 import java.util.Calendar;
@@ -37,24 +42,51 @@ public class NotSoIntelligentAssistant {
     private int NumberOfSentencesIKnow = 6;
     private String WelcomingTexts = "Hello,\nYour wish is my command";
 
-    private String theAnswer = "I'm not that smart";
+    public String theAnswer = "I'm not that smart";
+
+    // Basic Strings for the XML file
+    private String KEY_OUTPUT= "Output"; // parent node
+    private String KEY_NAME = "name";
+    private String KEY_ID= "id";
+    private String KEY_STATUS = "status";
+
     private RelativeLayout theLayout;
+    private String Email;
+    private String Password;
+    private MyFTPClientFunctions theFTP;
+    private OutputQueries iCanControlOutputs;
+
+    public int Response;
+
+    private File rootFolder = new File(Environment.getExternalStorageDirectory(),"FIX");
+    private String OutputXML= rootFolder.getAbsolutePath() + "/OutputNames.xml";
 
     private Context theMainContext;
     private UserConversation theUser;
 
+    private ScrollView theMessageScroll;
+
     private int LayoutNumber = 80000000;
     private int LayoutNumberNext;
 
-    public NotSoIntelligentAssistant(RelativeLayout LayoutToExtend, Context context){
+    public NotSoIntelligentAssistant(RelativeLayout LayoutToExtend, Context context, String theEmail,
+                                     String thePassword, ScrollView theScroll){
         theLayout = LayoutToExtend;
         theMainContext = context;
+        Email = theEmail;
+        Password = thePassword;
+
+        theMessageScroll = theScroll;
+
+        theFTP = new MyFTPClientFunctions();
+        iCanControlOutputs = new OutputQueries(theEmail,thePassword);
+
         theUser = new UserConversation(theMainContext,theLayout);
         CreateMyEnteringSpeech(HelloText());
     }
 
 
-    public String HelloText(){
+    private String HelloText(){
 
         Calendar theCalender = Calendar.getInstance();
         Random aRandomNumber = new Random(theCalender.getTimeInMillis());
@@ -75,8 +107,7 @@ public class NotSoIntelligentAssistant {
 
         return WelcomingTexts;
     }
-
-    public String IAmStuuuupid(){
+    private String IAmStuuuupid(){
 
         Calendar theCalender = Calendar.getInstance();
         Random aRandomNumber = new Random(theCalender.getTimeInMillis());
@@ -97,18 +128,88 @@ public class NotSoIntelligentAssistant {
 
         return WelcomingTexts;
     }
+    private String WhatIsThat(){
+
+        String WhatThe = "Focus on the name. Genius.";
+        Calendar theCalender = Calendar.getInstance();
+        Random aRandomNumber = new Random(theCalender.getTimeInMillis());
+
+        if((aRandomNumber.nextInt()) % NumberOfSentencesIKnow == 0)
+            WhatThe = "What the hell is that?";
+        if(aRandomNumber.nextInt() % NumberOfSentencesIKnow == 1)
+            WhatThe = "I know you don't have\nsuch a device";
+        if(aRandomNumber.nextInt() % NumberOfSentencesIKnow == 2)
+            WhatThe = "I may not be smart, but\nI know that nothing is called that";
+        if(aRandomNumber.nextInt() % NumberOfSentencesIKnow == 3)
+            WhatThe = "Auto correct?";
+        if(aRandomNumber.nextInt() % NumberOfSentencesIKnow == 4)
+            WhatThe = "I bet you that name is wrong";
+        if(aRandomNumber.nextInt() % NumberOfSentencesIKnow == 5)
+            WhatThe = "Oh well, If only i knew what that is!";
 
 
+        return WhatThe;
+    }
+    private String TurnOnOffText(String OnOff){
+        String OnOffText = "Okay. " + OnOff;
+        Calendar theCalender = Calendar.getInstance();
+        Random aRandomNumber = new Random(theCalender.getTimeInMillis());
+
+        if((aRandomNumber.nextInt()) % NumberOfSentencesIKnow == 0)
+            OnOffText = "Yes sir I will turn that " + OnOff;
+        if(aRandomNumber.nextInt() % NumberOfSentencesIKnow == 1)
+            OnOffText = "I bet it's " + OnOff + " now!";
+        if(aRandomNumber.nextInt() % NumberOfSentencesIKnow == 2)
+            OnOffText = "Count on me to turn that " + OnOff;
+        if(aRandomNumber.nextInt() % NumberOfSentencesIKnow == 3)
+            OnOffText = "You have to trust me that\n this is " + OnOff;
+        if(aRandomNumber.nextInt() % NumberOfSentencesIKnow == 4)
+            OnOffText = "Some people get paid for that\nTurning this " + OnOff + " for FREE!";
+        if(aRandomNumber.nextInt() % NumberOfSentencesIKnow == 5)
+            OnOffText = OnOff.toUpperCase() + " it is";
+
+
+        return OnOffText;
+    }
+    private String AlreadyOnOff(String AlreadyOnOff){
+        String OnOffText = "This is already on";
+        Calendar theCalender = Calendar.getInstance();
+        Random aRandomNumber = new Random(theCalender.getTimeInMillis());
+
+        if((aRandomNumber.nextInt()) % NumberOfSentencesIKnow == 0)
+            OnOffText = "But,but.. This is already " + AlreadyOnOff;
+        if(aRandomNumber.nextInt() % NumberOfSentencesIKnow == 1)
+            OnOffText = "I think it's " + AlreadyOnOff ;
+        if(aRandomNumber.nextInt() % NumberOfSentencesIKnow == 2)
+            OnOffText = "You don't need my help. It was " + AlreadyOnOff;
+        if(aRandomNumber.nextInt() % NumberOfSentencesIKnow == 3)
+            OnOffText = "Guess you didn't realise\n It is already " + AlreadyOnOff;
+        if(aRandomNumber.nextInt() % NumberOfSentencesIKnow == 4)
+            OnOffText = "No need for that. Already " + AlreadyOnOff ;
+        if(aRandomNumber.nextInt() % NumberOfSentencesIKnow == 5)
+            OnOffText = AlreadyOnOff.toUpperCase() + " " + AlreadyOnOff.toUpperCase() +" "+ AlreadyOnOff.toUpperCase()
+                        + ". That's how it is";
+
+
+        return OnOffText;
+    }
+
+
+    //Function Read is responsible to create the user class and create the user speech
+    // then it passes the text to function TryToUnderstand()
     public void Read(String theText){
 
         LayoutNumber = theUser.CreateUserSpeech(LayoutNumber,theText);
         TryToUnderStand(theText);
+        theMessageScroll.fullScroll(ScrollView.FOCUS_DOWN);
 
 
     }
 
 
-
+    //Function TryToUnderstand is responsible for splitting the given sentence
+    // and try to study different elements of the sentence and make use of predefined variables
+    // then it will pass the string to function CreateMySpeech and other functions depending on what is understood
     private void TryToUnderStand(String splitText){
 
 
@@ -120,12 +221,21 @@ public class NotSoIntelligentAssistant {
                         splitText.contains("Hi") || splitText.contains("hi"))
             {
                 CreateMySpeech(LayoutNumberNext,HelloText());
+                Response = 0;
+                theTest = true;
+            }
+
+            else if (splitText.contains("turn") || splitText.contains("switch")
+                        || splitText.contains("Turn") || splitText.contains("Switch")
+                         || splitText.contains("Power") || splitText.contains("power"))
+            {
+                CreateMySpeech(LayoutNumberNext,iShouldTurnSomething(splitText));
                 theTest = true;
             }
 
             else if(splitText.contains("Help") || splitText.contains("help"))
             {
-                CreateMySpeech(LayoutNumberNext,"So far i can only welcome you");
+                CreateMySpeech(LayoutNumberNext,"So far i can only welcome you\n and turn things on and off");
                 theTest=true;
             }
 
@@ -135,6 +245,76 @@ public class NotSoIntelligentAssistant {
 
 
     }
+
+    //iShouldTurnSomething() is a function i created to receive a text that contains
+    // some predefined words such as "turn" "power" etc... it then goes on to check
+    // what status it should move on.
+
+    //iCanControlOutputs is of type OutputQueries(), a class that can read XML values and manipulate them
+    private String iShouldTurnSomething(String somethingIShouldDo){
+
+        iCanControlOutputs.resetBooleanValues();
+
+        if(somethingIShouldDo.contains("On") || somethingIShouldDo.contains("on")) {
+
+            iCanControlOutputs.LoadOutputXmlWithNoGui(somethingIShouldDo,"On");
+
+            if(iCanControlOutputs.isOutputNameAvailable == true && iCanControlOutputs.OutputStatus == true)
+                return AlreadyOnOff("on");
+            else if(iCanControlOutputs.isOutputNameAvailable == true && iCanControlOutputs.OutputStatus == false) {
+                iCanControlOutputs.SetOutputs(OutputXML,KEY_STATUS,  KEY_OUTPUT,iCanControlOutputs.itsPosition,"On");
+                uploadIt();
+                return TurnOnOffText("on");
+
+            }
+            else  if(somethingIShouldDo.contains("all") || somethingIShouldDo.contains("All") ||
+                    somethingIShouldDo.contains("everything") || somethingIShouldDo.contains("Everything")){
+                for (int i = 0; i<4;i++)
+                {
+                    iCanControlOutputs.SetOutputs(OutputXML,KEY_STATUS,  KEY_OUTPUT,i,"On");
+                }
+                uploadIt();
+                return "Everthing is on now";
+            }
+            else if (iCanControlOutputs.isOutputNameAvailable == false)
+                return WhatIsThat();
+        }
+
+        if(somethingIShouldDo.contains("Off") || somethingIShouldDo.contains("off")) {
+
+            iCanControlOutputs.LoadOutputXmlWithNoGui(somethingIShouldDo,"Off");
+
+            if(iCanControlOutputs.isOutputNameAvailable == true && iCanControlOutputs.OutputStatus == true)
+                return AlreadyOnOff("off");
+            else if(iCanControlOutputs.isOutputNameAvailable == true && iCanControlOutputs.OutputStatus == false) {
+                iCanControlOutputs.SetOutputs(OutputXML,KEY_STATUS,  KEY_OUTPUT,iCanControlOutputs.itsPosition,"Off");
+                uploadIt();
+                return TurnOnOffText("off");
+            }
+            else  if(somethingIShouldDo.contains("all") || somethingIShouldDo.contains("All") ||
+                    somethingIShouldDo.contains("everything") || somethingIShouldDo.contains("Everything")){
+                for (int i = 0; i<4;i++)
+                {
+                    iCanControlOutputs.SetOutputs(OutputXML,KEY_STATUS,  KEY_OUTPUT,i,"Off");
+                }
+                uploadIt();
+                return "Everthing is off now";
+            }
+
+            else if (iCanControlOutputs.isOutputNameAvailable == false)
+                return WhatIsThat();
+        }
+
+
+
+
+        return "I dont get what i should change";
+
+    }
+
+
+// The next 5 functions are related to manipulating the UI dynamically. For the bot
+    // for user manipulation check UserConversation.class
 
     private void CreateMyEnteringSpeech(String theText){
 
@@ -272,5 +452,34 @@ public class NotSoIntelligentAssistant {
 
         return mySpeech;
     }
+
+
+    // uploadIt() is a basic function that logins to the FTP server and uploads file :)
+    public void uploadIt(){
+
+        // MyFTPClientFunctions is an open source class created by Tejas Jasani
+        // available for public use and sale/resale of any product developed using such work
+        // with licensing available for free with credits
+
+        new Thread(new Runnable() {
+            public void run() {
+                boolean status = false;
+
+                boolean uploadStatus;
+
+                uploadStatus = theFTP.ftpConnect("ftp.bodirectors.com", Email + "@bodirectors.com",
+                        Password, 21);
+
+                if (uploadStatus == true) {
+                    theFTP.ftpUpload(OutputXML, "OutputNames.xml", "/", theMainContext);
+                    theFTP.ftpDisconnect();
+                    // Toast.makeText(getContext(),"Files Updated", Toast.LENGTH_LONG).show();
+                }
+
+            }
+        }).start();
+
+    }
+
 
 }

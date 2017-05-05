@@ -63,6 +63,7 @@ public class LoginActivity extends AppCompatActivity {
     private CheckBox shouldIRemember;
 
     private CredentialDbAdapter theDB;
+    private boolean didILogin = false;
 
 
     @Override
@@ -106,10 +107,12 @@ public class LoginActivity extends AppCompatActivity {
                 status = ftpclient.ftpConnect("ftp.bodirectors.com", EmailText.getText().toString() + "@bodirectors.com",
                         PasswordText.getText().toString(), 21);
 
+
                 if (status == true) {
 
 
                     Log.d(TAG, "Connection Success");
+                    didILogin = true;
 
 
                     if (shouldIRemember.isChecked())
@@ -118,7 +121,10 @@ public class LoginActivity extends AppCompatActivity {
                         RememberUser("", "");
 
 
+
+
                     Intent LoggedIn = new Intent(getApplication(), UserActivity.class);
+
 
 
                     LoggedIn.putExtra("Email", EmailText.getText().toString())
@@ -128,8 +134,12 @@ public class LoginActivity extends AppCompatActivity {
                     startActivity(LoggedIn);
 
 
-                } else {
-                    // com.ndusenior.fix.Message.showToast("Login Failed. Check Username and Password", LoginActivity.this);
+                }
+
+                else {
+                     com.ndusenior.fix.Message.showToast("Login Failed. Check Username and Password", LoginActivity.this);
+                    didILogin = true;
+
                 }
 
             }
@@ -157,6 +167,7 @@ public class LoginActivity extends AppCompatActivity {
                 successStatus = ftpclient.ftpDownload("OutputNames.xml", OutputXML);
                 successStatus = ftpclient.ftpDownload("profile.jpg", profileImage);
 
+
                 ftpclient.ftpDisconnect();
 
 
@@ -171,8 +182,31 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View arg0) {
 
-
+                LoginButton.setEnabled(false);
+                EmailText.setEnabled(false);
+                PasswordText.setEnabled(false);
+                shouldIRemember.setEnabled(false);
                 goforIt();
+
+
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            // Keep checking for statuses every one second
+                            if(didILogin){
+                                LoginButton.setEnabled(true);
+                                EmailText.setEnabled(true);
+                                PasswordText.setEnabled(true);
+                                shouldIRemember.setEnabled(true);
+                            }
+
+                        }
+                    }, 1000);
+
+
+
 
             }
 
@@ -268,6 +302,17 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+
+@Override
+    public void onResume(){
+    super.onResume();
+
+    didILogin = false;
+    LoginButton.setEnabled(true);
+    EmailText.setEnabled(true);
+    PasswordText.setEnabled(true);
+    shouldIRemember.setEnabled(true);
+}
 
 
 }

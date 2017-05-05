@@ -13,13 +13,17 @@
         android:textColorHint="#CFD8DC"
         android:textColor="#CFD8DC"
         android:hint="Write a message"
-        android:id="@+id/MessageText" />
+        android:id="@+id/MessageText"
+        android:inputType="textCapSentences"/>
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="5"
-        android:padding="4dp"
+        android:paddingTop="1dp"
+        android:paddingBottom="4dp"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
         android:src="@android:drawable/ic_menu_send"
         android:id="@+id/SendBtn" />
 </LinearLayout>

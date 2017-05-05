@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.ndusenior.fix.AssistantClasses.NotSoIntelligentAssistant;
@@ -35,6 +36,13 @@ public class FragmentBot extends Fragment {
 
     private RelativeLayout mainLayout;
 
+    public static final String EMAIL_KEY = "email";
+    public static final String PASSWORD_KEY = "password";
+    private String Email;
+    private String Password;
+
+    private ScrollView theMessageScroll;
+
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -43,11 +51,11 @@ public class FragmentBot extends Fragment {
         // ------- Code Below this is just initializing stuff -------- //
 
         mainLayout = (RelativeLayout) getView().findViewById(R.id.mainBotLayout);
+        theMessageScroll = (ScrollView) getView().findViewById(R.id.messageScroll);
 
-        theBot = new NotSoIntelligentAssistant(mainLayout,getContext());
+        theBot = new NotSoIntelligentAssistant(mainLayout,getContext(), Email,Password, theMessageScroll);
         sendButton = (ImageView) getView().findViewById(R.id.SendBtn);
         UserMessage = (EditText) getView().findViewById(R.id.MessageText);
-
 
 
 
@@ -65,6 +73,7 @@ public class FragmentBot extends Fragment {
 
                     theBot.Read(UserMessage.getText().toString());
                     UserMessage.setText("");
+                  // theMessageScroll.fullScroll(ScrollView.FOCUS_DOWN);
 
 
             }
@@ -78,6 +87,10 @@ public class FragmentBot extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View theView = inflater.inflate(R.layout.fragment_bot,container,false);
+        Bundle bundle = getArguments();
+
+        Email = bundle.getString(EMAIL_KEY);
+        Password = bundle.getString(PASSWORD_KEY);
 
         return theView;
     }

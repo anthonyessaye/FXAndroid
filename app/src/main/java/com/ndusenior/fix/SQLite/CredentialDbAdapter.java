@@ -39,6 +39,7 @@ public class CredentialDbAdapter {
         String[] columns = {myDbHelper.UID,myDbHelper.NAME,myDbHelper.MyPASSWORD};
         Cursor cursor =db.query(myDbHelper.TABLE_NAME,columns,null,null,null,null,null);
         StringBuffer buffer= new StringBuffer();
+
         while (cursor.moveToNext())
         {
             int cid =cursor.getInt(cursor.getColumnIndex(myDbHelper.UID));

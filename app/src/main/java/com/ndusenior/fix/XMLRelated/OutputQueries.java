@@ -44,6 +44,12 @@ public class OutputQueries {
     private String Email;
     private String Password;
 
+    public boolean isOutputNameAvailable = false;
+    public boolean OutputStatus = false;
+    public String aNameIChose = null;
+    public String itsStatus = null;
+    public int itsPosition = -1;
+
     public OutputQueries(String EmailToLogin, String UserPassword){
 
         Email = EmailToLogin;
@@ -87,8 +93,9 @@ public class OutputQueries {
 
     }
 
+
     public void SetOutputs(String fileToWrite, String ElementChosen,String RootElement,
-                             int ElementPosition, String UpdateElementValue) {
+                           int ElementPosition, String UpdateElementValue) {
         File xmlFile = new File(fileToWrite);
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder;
@@ -122,12 +129,57 @@ public class OutputQueries {
                                            int ElementPosition, String UpdatedValue) {
         NodeList node = doc.getElementsByTagName(RootElement);
         Element nodes = null;
-        //loop for each employee
+        //loop for each output
+
         for(int i=0; i < node.getLength();i++){
             nodes = (Element) node.item(ElementPosition);
             Node name = nodes.getElementsByTagName(ElementChosen).item(0).getFirstChild();
             name.setNodeValue(UpdatedValue);
         }
     }
+
+    public void resetBooleanValues(){
+        isOutputNameAvailable =false;
+        OutputStatus = false;
+        aNameIChose = null;
+        itsPosition = -1;
+    }
+
+
+    public void LoadOutputXmlWithNoGui(String GiveMeAnOutput, String GiveMetheStatusYouWant){
+
+
+        XMLparsing parser = new XMLparsing();
+        Document doc = parser.getDomElement(OutputXML); // getting DOM element
+
+        NodeList nl = doc.getElementsByTagName(KEY_OUTPUT);
+
+        // looping through all item nodes <item>
+        for (int i = 0; i < nl.getLength(); i++) {
+            Element e = (Element) nl.item(i);
+            String name = parser.getValue(e,KEY_NAME); // name child value
+            String id = parser.getValue(e, KEY_ID); // cost child value
+            String status = parser.getValue(e, KEY_STATUS); // description child value
+
+            if(GiveMeAnOutput.contains(name)) {
+                isOutputNameAvailable = true;
+                if (status.contains(GiveMetheStatusYouWant))
+                    OutputStatus = true;
+                else {
+                    aNameIChose = name;
+                    itsPosition = i;
+
+
+                }
+                break;
+            }
+
+
+        }
+
+
+    }
+
+
 
 }

@@ -126,7 +126,8 @@ public class UserActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+           super.onBackPressed();
+
         }
     }
 
@@ -169,6 +170,10 @@ public class UserActivity extends AppCompatActivity
                 break;
             case R.id.nav_assistant:
                 newFragment = new FragmentBot();
+                Bundle dataForBot = new Bundle();
+                dataForBot.putString(EMAIL_KEY,Email);
+                dataForBot.putString(PASSWORD_KEY,Password);
+                newFragment.setArguments(dataForBot);
                 toolbar.setTitle("Assistant");
                 break;
 
@@ -177,7 +182,7 @@ public class UserActivity extends AppCompatActivity
                 toolbar.setTitle("Settings");
                 break;
             case R.id.nav_component:
-                newFragment = new FragmentBluetoothList();
+                newFragment = new FragmentComponent();
                 toolbar.setTitle("Component");
                 break;
             case R.id.nav_logout:
@@ -207,6 +212,7 @@ public class UserActivity extends AppCompatActivity
 
         return true;
     }
+
 
 
 

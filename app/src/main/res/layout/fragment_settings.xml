@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -6,31 +11,267 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingBottom="40dp"
         android:paddingTop="20dp">
 
 
-        <TextView
-            android:text="Country/City: "
-            android:textSize="20dp"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/OutputFourToggle"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:id="@+id/AccountTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:paddingLeft="10dp"
+                android:paddingBottom="20dp"
+                android:text="Account"
+                android:textColor="#000000"
+                android:textSize="40dp" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingTop="20dp">
+
+
+            <TextView
+                android:id="@+id/AccountNameTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:gravity="left"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="Account Name"
+                android:textSize="20dp" />
+
+            <EditText
+                android:id="@+id/AccountNameText"
+                android:layout_width="200dp"
+                android:paddingTop="20dp"
+                android:layout_marginLeft="10dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+
+                android:contentDescription="Enter Here"
+                android:text="Enter Here" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+
+            android:paddingTop="20dp">
+
+
+            <TextView
+                android:id="@+id/DisplayNameTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:gravity="left"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="Displayed Name:"
+                android:textSize="20dp" />
+
+            <EditText
+                android:id="@+id/DisplayNameText"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginLeft="10dp"
+                android:paddingTop="20dp"
+
+                android:contentDescription="Enter Here"
+                android:text="Enter Here" />
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="40dp"
+        android:paddingTop="20dp">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            >
+
+
+            <TextView
+                android:id="@+id/WeatherTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:paddingBottom="20dp"
+                android:text="Weather"
+                android:textColor="#000000"
+                android:textSize="40dp"
+                android:paddingLeft="10dp"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingTop="20dp">
+
+
+            <TextView
+                android:id="@+id/CountryTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+
+
+                android:text="Country/City: "
+                android:textSize="20dp" />
+
+            <EditText
+                android:id="@+id/CountryNameText"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginLeft="10dp"
+                android:paddingTop="20dp"
+
+                android:contentDescription="Enter Here"
+                android:text="Enter Here" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
             android:layout_gravity="center"
-            android:gravity="right"/>
+            android:paddingTop="20dp">
 
-        <EditText
-            android:text="Enter Here"
-            android:contentDescription="Enter Here"
+
+            <TextView
+                android:id="@+id/UnitOfTemperature"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:gravity="left"
+                android:text="Unit of Temperature: "
+                android:textSize="20dp" />
+
+
+            <Switch
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="20dp"
+                android:paddingBottom="10dp"
+                android:layout_gravity="left"
+
+                android:textOff="ºF"
+                android:textOn="ºC" />
+
+
+
+
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingBottom="40dp"
+        android:paddingTop="20dp">
+
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            android:id="@+id/OutputFourName"
+
+            <TextView
+                android:id="@+id/AssistantTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:paddingBottom="20dp"
+                android:text="Assistant"
+                android:textColor="#000000"
+                android:textSize="40dp"
+                android:paddingLeft="10dp"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:layout_gravity="center"/>
+            android:orientation="vertical"
+            android:paddingTop="20dp">
 
+
+            <TextView
+                android:id="@+id/AsssitantNameTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:gravity="left"
+                android:text="Assistant Name"
+                android:textSize="20dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"/>
+
+            <EditText
+                android:id="@+id/AssistantNameText"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+               android:layout_marginLeft="10dp"
+
+                android:contentDescription="Enter Here"
+                android:text="Enter Here" />
+
+
+        </LinearLayout>
 
     </LinearLayout>
 
@@ -39,16 +280,21 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingTop="20dp"
-        android:layout_gravity="center">
+        android:layout_gravity="center"
+        android:paddingBottom="30dp">
 
         <Button
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:id="@+id/saveBtn"
             android:text="Save"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            />
 
         </LinearLayout>
 
 
 </LinearLayout>
+</ScrollView>
