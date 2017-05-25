@@ -189,8 +189,12 @@
                 android:text="Unit of Temperature: "
                 android:textSize="20dp" />
 
-
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
             <Switch
+                android:id="@+id/UnitSwitch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
@@ -200,8 +204,17 @@
                 android:paddingBottom="10dp"
                 android:layout_gravity="left"
 
-                android:textOff="ºF"
-                android:textOn="ºC" />
+                android:textOff="F"
+                android:textOn="C" />
+
+                <TextView
+                    android:id="@+id/TempUnitText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                    android:paddingTop="10dp"
+                    android:textSize="20dp"
+                android:layout_gravity="center"/>
+                </LinearLayout>
 
 
 

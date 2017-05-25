@@ -179,6 +179,10 @@ public class UserActivity extends AppCompatActivity
 
             case R.id.nav_settings:
                 newFragment = new FragmentSettings();
+                Bundle dataForSettings = new Bundle();
+                dataForSettings.putString(EMAIL_KEY,Email);
+                dataForSettings.putString(PASSWORD_KEY,Password);
+                newFragment.setArguments(dataForSettings);
                 toolbar.setTitle("Settings");
                 break;
             case R.id.nav_component:
